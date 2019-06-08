@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Deathmatch Time!</title>
+            <style>
+    .btn {
+      border: none;
+      background-color: inherit;
+      padding: 14px 28px;
+      font-size: 32px;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    /* Green */
+    .person1 {
+      color: dodgerblue;
+    }
+
+    .person1:hover {
+      background-color: #4CAF50;
+      color: green;
+    }
+    /* Red */
+    .person2 {
+      color: dodgerblue;
+    }
+
+    .person2:hover {
+      background: deepskyblue;
+      color: dodgerblue;
+    }
+
+    .default:hover {
+      background: #e7e7e7;
+    }
+</style>
+</head>
+<body>
+<p style="text-align:center;"><img src="https://i.imgur.com/yoa5Xdw.png" height="250" width="800">
+        </p>
+
+        <p style="text-align:center; font-family: Roboto">
+            Okay, now that selections have been made, it's time for the bracket! This is a 256-team bracket (oof), so it will take a while to fill out.
+            Just select which person you think would win in a fight, and move on. Results will be visualized at the end of the selection period!
+            Rounds: {{rounds}}
+        </p>
+
+<p style="text-align: center; font-size: 60px; font-family: Roboto">WHO WOULD WIN: </p>
+
+<center>
+        <form action="/" method="post">
+            {% csrf_token %}
+        <button class="btn person1" type="submit" name="p1" value="{{player1}}">{{player1}}</button>
+        <button class="btn person2" type="submit" name="p2" value="{{player2}}">{{player2}}</button>
+        </form>
+</center>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>NHS Deathmatch</title>
+        <style>
+    .btn {
+      border: none;
+      background-color: inherit;
+      padding: 14px 28px;
+      font-size: 32px;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    /* Green */
+    .yes {
+      color: green;
+    }
+
+    .yes:hover {
+      background-color: #4CAF50;
+      color: white;
+    }
+    /* Red */
+    .no {
+      color: red;
+    }
+
+    .no:hover {
+      background: #f44336;
+      color: white;
+    }
+
+    .default:hover {
+      background: #e7e7e7;
+    }
+</style>
+    </head>
+    <body>
+    <center>
+        <p style="text-align:center;"><img src="https://i.imgur.com/yoa5Xdw.png" height="250" width="800">
+        </p>
+
+        <p style="text-align:center; font-family: Roboto">
+            In this deathmatch game, you decide who the strongest at NHS is! At first, remove {{number}} people or accept {{number2}} people.
+            Then, select the winner of individual fights, until you reach the final champion! A tier list will be created, based on who you vote for!
+        </p>
+
+        <p style="text-align:center; font-family: Roboto; font-size: 60px">
+            SHOULD <b name="PPSSNN">{{ result }}</b> FIGHT?
+        </p>
+
+        <form action="/" method="post">
+            {% csrf_token %}
+        <button class="btn yes" type="submit" name="yes" value="{{result}}">YES</button>
+        <button class="btn no" type="submit" name="no" value="{{result}}">NO</button>
+            <button class="btn default" type="submit" name="random" value="random">RANDOM</button>
+            <button class="btn default" type="submit" name="reset" value="reset">RESET</button>
+        </form>
+
+    </center>
+     <a href="/about/">About Me</a>
+    </body>
+</html>
