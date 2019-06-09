@@ -16,6 +16,7 @@ class AboutPageView(TemplateView):
 def view_home(request):
     if request.method == 'POST':
         if(request.POST.get("yes")):
+            print(request.POST)
             processor.accept_person(request.POST.get("yes", False))
         if(request.POST.get("no")):
             print(request.POST)
@@ -31,19 +32,30 @@ def view_home(request):
         currPerson = "null"
     number = processor.getNumberLeft()
     if (processor.getNumberLeft() == 0 or processor.getNumberAccepted() == 256):
+        # if there's only one person left
         if request.method == 'POST':
             if(request.POST.get("p1")):
                 print("p1")
                 processor.addWinner(request.POST.get("p1", False))
+                processor.increaseCount(request.POST.get("p1", False))
+                print(processor.getCount(request.POST.get("p1", False)))
             if (request.POST.get("p2")):
                 print("p2")
                 processor.addWinner(request.POST.get("p2", False))
+                processor.increaseCount(request.POST.get("p2", False))
+                print(processor.getCount(request.POST.get("p2", False)))
+            if (request.POST.get("reset")):
+                processor.reset()
             if (processor.isRoundOver()):
                 processor.startNewRound()
                 print("new round!")
-            processor.setUpDeathmatch()
-            players = processor.getNextPair()
-            player1, player2 = players[0], players[1]
+            if processor.isGameOver():
+                print("Game Over!")
+                return render(request, 'results.html', {})
+            else:
+                processor.setUpDeathmatch()
+                players = processor.getNextPair()
+                player1, player2 = players[0], players[1]
         return render(request, 'deathmatch.html', {"player1":player1, "player2":player2, "rounds":processor.getRounds()})
     return render(request,'index.html',{"result":currPerson, "number":number, "number2":256-processor.getNumberAccepted()})
 
