@@ -4,6 +4,47 @@
         <meta charset="utf-8">
         <title>NHS Deathmatch</title>
         <style>
+.ghost-input {
+    float: left;
+  display: block;
+  font-weight:300;
+  width: 100%;
+  font-size: 25px;
+  border:0px;
+  outline: none;
+  width: 50%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #4b545f;
+  background: #fff;
+  font-family: Open Sans,Verdana;
+  padding: 10px 15px;
+  margin: 30px 0px;
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -ms-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+.ghost-input:focus {
+  border-bottom:1px solid #ddd;
+}
+.ghost-button {
+  background-color: transparent;
+  border:2px solid #ddd;
+  padding:10px 30px;
+  min-width: 350px;
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -ms-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+.ghost-button:hover {
+  border:2px solid #515151;
+}
+
     .btn {
       border: none;
       background-color: inherit;
@@ -35,20 +76,35 @@
     .default:hover {
       background: #e7e7e7;
     }
+
+
 </style>
     </head>
     <body>
+    <p style="text-align:center;"><img src="https://i.imgur.com/oEJBsQ8.png" height="150" width="800">
     <center>
-        <p style="text-align:center;"><img src="https://i.imgur.com/yoa5Xdw.png" height="250" width="800">
-        </p>
-
+        <h1 style="font-size: 36px; font-family: Roboto">
+  Who would win in a <span
+    class="typer"
+    id="some-id"
+    data-words="fight?,staring contest?,thumb wrestling match?"
+    data-delay="100"
+    data-colors="#FF91AF,#1590ce,#ec393c">
+  </span>
+  <span style="font-size:1.2em;vertical-align:middle;" class="cursor" data-cursorDisplay="|" data-owner="some-id"></span>
+</h1>
+        <script async src="https://unpkg.com/typer-dot-js@0.1.0/typer.js"></script>
+        <div class="container">
         <p style="text-align:center; font-family: Roboto">
-            In this deathmatch game, you decide who the strongest at NHS is! At first, remove {{number}} people or accept {{number2}} people.
-            Then, select the winner of individual fights, until you reach the final champion! A tier list will be created, based on who you vote for!
+        In this game, you decide who at NHS would win in <b style="font-size: 24px">{{theme}}!</b> At first, remove {{number}} people or accept {{number2}} people. Add people (or remove them)
+            by using the buttons provided, or type in your friends names below.
+            Then, select the winner of individual matches, until you reach the final champion! A tier list will be created based on who you vote for!
         </p>
+            </div>
 
-        <p style="text-align:center; font-family: Roboto; font-size: 60px">
-            SHOULD <b name="PPSSNN">{{ result }}</b> FIGHT?
+    <div class="container" style="background-color: whitesmoke">
+        <p style="text-align:center; font-family: Roboto; font-size: 50px">
+            SHOULD <b name="PPSSNN">{{ result }}</b> PARTICIPATE?
         </p>
 
         <form action="/" method="post">
@@ -59,7 +115,26 @@
             <button class="btn default" type="submit" name="reset" value="reset">RESET</button>
         </form>
 
+        </div>
+    <br>
+            <div class="container">
+
+            <form action="/" method="post">
+                {% csrf_token %}
+              <input type="text" name="fname" class="ghost-input" placeholder="Enter a name from NHS '19 to add...">
+                <!--<input type="text" name="theme" class="ghost-input" placeholder="Enter competition (Who would in a...)">-->
+            </form>
+                <span>
+                    <form action="/" method="post">
+                {% csrf_token %}
+                <input type="text" name="theme" class="ghost-input" placeholder="Enter competition (Who would in...)">
+            </form>
+
+                </span>
+
+            </div>
+
+
     </center>
-     <a href="/about/">About Me</a>
     </body>
 </html>

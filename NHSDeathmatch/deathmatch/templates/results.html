@@ -4,22 +4,124 @@
     <meta charset="UTF-8">
     <title>Deathmatch Results!</title>
 </head>
-
 <style>
-.bg {
-  /* The image used */
-  background-image: url("https://preview.redd.it/id9sqjb7udu01.png?width=1024&auto=webp&s=25512dc89c55bb182139f1cae82cf22f12644f56");
-  /* Full height */
-  height: 100%;
+    body{
+        background-image: url("https://preview.redd.it/id9sqjb7udu01.png?width=1024&auto=webp&s=25512dc89c55bb182139f1cae82cf22f12644f56");
+        background-repeat: no-repeat;
+        background-size: inherit;
+    }
 
-  /* Center and scale the image nicely */
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}</style>
+        .btn {
+      border: none;
+      background-color: inherit;
+      padding: 14px 28px;
+      font-size: 32px;
+      cursor: pointer;
+      display: inline-block;
+    }
 
+        .default:hover {
+      background: #e7e7e7;
+    }
+
+</style>
 <body>
-<div class="bg"></div>
+
+<div style="
+    top: 0px;
+    left: 50px;
+    position: absolute;
+    z-index: 1;
+    visibility: visible;
+">
+    <textarea rows="3" cols="55" style="font-size: 30px; resize: none; width: 970px; height: 90px;" readonly>
+        {{s}}
+    </textarea>
+    </div>
+
+<div style="
+    top: 100px;
+    left: 50px;
+    position: absolute;
+    z-index: 1;
+    visibility: visible;
+">
+    <textarea rows="3" cols="55" style="font-size: 25px; resize: none; width: 970px; height: 90px;" readonly>
+        {{a}}
+    </textarea>
+    </div>
+
+
+<div style="
+    top: 195px;
+    left: 50px;
+    position: absolute;
+    z-index: 1;
+    visibility: visible;
+">
+    <textarea rows="3" cols="55" style="font-size: 20px; resize: none; width: 970px; height: 90px;" readonly>
+        {{b}}
+    </textarea>
+    </div>
+
+
+<div style="
+    top: 290px;
+    left: 50px;
+    position: absolute;
+    z-index: 1;
+    visibility: visible;
+">
+    <textarea rows="3" cols="55" style="font-size: 15px; resize: none; width: 970px; height: 90px;" readonly>
+        {{c}}
+    </textarea>
+    </div>
+
+
+<div style="
+    top: 390px;
+    left: 50px;
+    position: absolute;
+    z-index: 1;
+    visibility: visible;
+">
+    <textarea rows="3" cols="55" style="font-size: 13px; resize: none; width: 970px; height: 90px;" readonly>
+        {{d}}
+    </textarea>
+    </div>
+
+
+<div style="
+    top: 485px;
+    left: 50px;
+    position: absolute;
+    z-index: 1;
+    visibility: visible;
+">
+    <textarea rows="3" cols="55" style="font-size: 12px; resize: none; width: 970px; height: 90px;" readonly>
+        {{na}}
+    </textarea>
+    </div>
+
+<div style="
+    top: 580px;
+    left: 50px;
+    position: absolute;
+    z-index: 1;
+    visibility: visible;
+">
+    <textarea rows="3" cols="55" style="font-size: 10px; resize: none; width: 970px; height: 90px;" readonly>
+        {{f}}
+    </textarea>
+    </div>
+
+<div>
+        <form action="/" method="post">
+            {% csrf_token %}
+            <button class="btn default" type="submit" name="reset" value="reset" style="position: relative; left: 70%">RESET</button>
+        </form>
+</div>
+
 
 </body>
 </html>
