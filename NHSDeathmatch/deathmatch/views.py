@@ -5,6 +5,7 @@ from django.contrib import messages
 from deathmatch.utils import processor
 
 
+sessions = {}
 
 class HomePageView(TemplateView):
     def get(self, request, **kwargs):
@@ -15,45 +16,49 @@ class AboutPageView(TemplateView):
     template_name = "about.html"
 
 def view_home(request):
+    processor.initSession(request, False)
     if request.method == 'POST':
+        # print(request.session.items())
         if(request.POST.get("fname")):
-            processor.accept_person(request.POST.get("fname", False))
+            processor.accept_person(request, request.POST.get("fname", False))
         if (request.POST.get("theme")):
-            processor.setTheme(request.POST.get("theme", False))
-            print(processor.getTheme())
+            processor.setTheme(request, request.POST.get("theme", False))
+            #print(processor.getTheme(request))
         if(request.POST.get("yes")):
-            processor.accept_person(request.POST.get("yes", False))
+            processor.accept_person(request, request.POST.get("yes", False))
         if(request.POST.get("no")):
-            processor.delete_person(request.POST.get("no", False))
+            processor.delete_person(request, request.POST.get("no", False))
         if (request.POST.get("reset")):
-            processor.reset()
+            processor.reset(request)
         if (request.POST.get("random")):
-            processor.generateRandomBracket()
-    i = 0
-    if processor.getNumberLeft() != 0:
-        currPerson = processor.get_person()
+            processor.generateRandomBracket(request)
+
+    if processor.getNumberLeft(request) != 0:
+        currPerson = processor.get_person(request)
     else:
         currPerson = "null"
-    number = processor.getNumberLeft()
-    if (processor.getNumberLeft() == 0 or processor.getNumberAccepted() == 256):
+    if (processor.getNumberLeft(request) == 0 or processor.getNumberAccepted(request) == 256):
+        request.session['isDeathmatch'] = True
+        #print(request.session['isDeathmatch'])
         if request.method == 'POST':
+            #print("post")
+            #print(request.POST)
             # print(len(processor.getSortedDict()[-1.0]))
             if(request.POST.get("p1")):
                 # print("p1")
-                processor.addWinner(request.POST.get("p1", False))
-                processor.increaseCount(request.POST.get("p1", False), 1.0)
+                processor.addWinner(request, request.POST.get("p1", False))
+                processor.increaseCount(request, request.POST.get("p1", False), 1.0)
             if (request.POST.get("p2")):
                 # print("p2")
-                processor.addWinner(request.POST.get("p2", False))
-                processor.increaseCount(request.POST.get("p2", False), 1.0)
+                processor.addWinner(request, request.POST.get("p2", False))
+                processor.increaseCount(request, request.POST.get("p2", False), 1.0)
             if (request.POST.get("reset")):
-                processor.reset()
-            if (processor.isRoundOver()):
-                processor.startNewRound()
-                print("new round!")
-            if processor.isGameOver():
-                print("Game Over!")
-                results = processor.getSortedDict()
+                processor.reset(request)
+            if (processor.isRoundOver(request)):
+                processor.startNewRound(request)
+            if processor.isGameOver(request):
+                #print("Game Over!")
+                results = processor.getSortedDict(request)
                 sl = results[8.0]
                 al = results[7.0] + results[6.0]
                 bl = results[5.0]
@@ -72,19 +77,30 @@ def view_home(request):
                 f = ", ".join(fl)
                 na = ", ".join(nal)
 
+                #processor.printEverything(request)
                 return render(request, 'results.html', {'s':s, 'a':a,
                                                         'b':b, 'c':c,
                                                         'd':d, 'f':f,
-                                                        'na':na})
+                                                        'na':na, 'theme':processor.getTheme(request)})
             else:
-                processor.setUpDeathmatch()
-                players = processor.getNextPair()
+                processor.setUpDeathmatch(request)
+                acc = request.session['accepted']
+                win = request.session['winners']
+                players = processor.getNextPair(request)
                 player1, player2 = players[0], players[1]
-        return render(request, 'deathmatch.html', {"player1":player1, "player2":player2, "rounds":processor.getRounds(),
-                                                   "progress":processor.getProgress(), "theme":processor.getTheme()})
-    return render(request,'index.html',{"result":currPerson, "number":number, "number2":256-processor.getNumberAccepted(),
-                                        "theme":processor.getTheme()})
+                if len(set(win)) == len(win):
+                    del acc[:2]
+                else:
+                    win = list(set(win))
+                request.session['accepted'] = acc
+                request.session['winners'] = win
+        #processor.printEverything(request)
+            return render(request, 'deathmatch.html', {"player1":player1, "player2":player2, "rounds":processor.getRounds(request),
+                                                   "progress":processor.getProgress(request), "theme":processor.getTheme(request)})
+    #processor.printEverything(request)
+    return render(request,'index.html',{"result":currPerson, "number":processor.getNumberLeft(request), "number2":256-processor.getNumberAccepted(request),
+                                        "theme":processor.getTheme(request)})
 
 # def get_first_result(request):
 #     if request.method == 'POST':
-#         if(request.POST.get(""))
+#         if(request.POST.ge                del acc[:2]t(""))
